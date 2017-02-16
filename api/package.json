@@ -1,0 +1,47 @@
+{
+  "name": "daves.pics",
+  "version": "0.0.0",
+  "description": "pics",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "start-qa": "node server.js",
+    "drop-tables": "./src/bin/drop-tables.js",
+    "rebuild-db": "npm run drop-tables && knex migrate:latest && knex seed:run",
+    "migrate-seed": "knex migrate:latest && knex seed:run",
+    "queue-shared": "node ./src/bin/queue-shared.js",
+    "process-shared-queue": "nodemon ./src/bin/process-shared-queue.js",
+    "process-object": "node ./src/bin/process-object.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/synapsestudios/hapi-api-template.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/synapsestudios/hapi-api-template/issues"
+  },
+  "homepage": "https://github.com/synapsestudios/hapi-api-template#readme",
+  "dependencies": {
+    "aws-sdk": "^2.12.0",
+    "bookshelf": "^0.10.3",
+    "boom": "^4.2.0",
+    "colors": "^1.1.2",
+    "confidence": "^3.0.2",
+    "electrolyte": "^0.4.0",
+    "glue": "^4.1.0",
+    "gm": "^1.23.0",
+    "hapi": "^16.1.0",
+    "hapi-auth-jwt2": "^7.2.4",
+    "knex": "^0.12.6",
+    "pg": "^6.1.2",
+    "promise-queue": "^2.2.3",
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "eslint-config-hapi": "^10.0.0",
+    "eslint-plugin-hapi": "^4.0.0",
+    "nodemon": "^1.11.0"
+  }
+}
