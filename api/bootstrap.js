@@ -32,11 +32,13 @@ exports.register = (server, options, next) => {
         ioc.create('source/source-model'),
         ioc.create('image/image-model'),
         ioc.create('image/image-file-model')
-    ]);
-
-    Promise.all([
-        ioc.create('example/example-routes')
     ])
+        .then(() =>
+
+            Promise.all([
+                ioc.create('source/source-routes')
+            ])
+        )
         .then((routeArrays) => {
 
             server.route([{

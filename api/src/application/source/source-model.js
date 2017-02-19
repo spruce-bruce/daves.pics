@@ -3,7 +3,7 @@
 class SourceModel {
     constructor(bookshelf) {
 
-        bookshelf.model('sources', {
+        bookshelf.model('source', {
             tableName : 'sources',
             idAttribute : 'id'
         });
