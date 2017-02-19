@@ -5,7 +5,9 @@ const style = {
     color: 'white',
     backgroundColor: 'black',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    minWidth: '15%',
+    padding: '1%'
   }
 };
 
