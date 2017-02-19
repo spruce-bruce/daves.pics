@@ -30,8 +30,11 @@ function formatValidationErrors(error) {
   return Immutable.fromJS(errors);
 }
 
-export default actionTypePrefix => {
-  return function (state = defaultState, action) {
+export default (actionTypePrefix, dataDefault) => {
+  let newDefault = defaultState;
+  newDefault = !dataDefault ? newDefault : newDefault.set('data', Immutable.fromJS(dataDefault));
+
+  return function (state = newDefault, action) {
     switch (action.type) {
       case `${actionTypePrefix}_REQUEST`:
         return state.merge({
@@ -56,7 +59,7 @@ export default actionTypePrefix => {
           error: action.json.validationErrors ? null : Immutable.fromJS(action.json),
         });
       case `${actionTypePrefix}_RESET`:
-        return defaultState;
+        return newDefault;
       default:
         break;
     }
