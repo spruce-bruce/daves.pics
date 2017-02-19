@@ -36,7 +36,8 @@ exports.register = (server, options, next) => {
         .then(() =>
 
             Promise.all([
-                ioc.create('source/source-routes')
+                ioc.create('source/source-routes'),
+                ioc.create('image/image-routes')
             ])
         )
         .then((routeArrays) => {

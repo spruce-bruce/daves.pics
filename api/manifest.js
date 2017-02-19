@@ -36,6 +36,21 @@ module.exports = {
             plugin: {
                 register: '../bootstrap'
             }
+        },
+        {
+            plugin: {
+                register: 'good',
+                options: {
+                    reporters: {
+                        consoleReporter: [
+                            { module: 'good-squeeze', name: 'Squeeze', args: [{ log: '*', response: '*', error: '*', request: '*' }] },
+                            { module: 'good-console' },
+                            'stdout'
+                        ]
+                    }
+                }
+            }
         }
+
     ]
 };

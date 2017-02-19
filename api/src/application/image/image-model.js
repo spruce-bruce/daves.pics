@@ -6,7 +6,12 @@ class SourceModel {
         bookshelf.model('image', {
             tableName : 'images',
             idAttribute : 'id',
-            hasTimestamps : true
+            hasTimestamps : true,
+
+            file() {
+
+                return this.hasMany('image-file');
+            }
         });
     }
 }

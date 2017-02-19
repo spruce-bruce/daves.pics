@@ -20,6 +20,22 @@ class ImageService {
         this.bookshelf = bookshelf;
     }
 
+    fetchImageList(query) {
+
+        return this.bookshelf.model('image').fetchPage({
+            withRelated: ['file'],
+            page: query.page,
+            pageSize: 50
+        })
+            .then((collection) => {
+
+                return {
+                    pagination: collection.pagination,
+                    collection
+                };
+            });
+    }
+
     makeThumb(imageBuffer, height) {
 
         console.log('Creating thumbnail...'.blue);
