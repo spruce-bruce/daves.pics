@@ -1,5 +1,21 @@
 version: '2'
 services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+      args:
+        PACKAGE_PATH: ./frontend/package.json
+        WORKING_DIR: /src/frontend
+    environment:
+      BACKEND: api:9000
+    env_file:
+      - ./common.env
+    volumes:
+      - .:/src
+    depends_on:
+      - api
+    command: ["npm", "start"]
   api:
     build:
       context: .
