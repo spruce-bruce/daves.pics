@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchSourceList } from '../sources/source-actions';
 
 const style = {
   leftBar: {
@@ -11,7 +13,11 @@ const style = {
   }
 };
 
-export default class extends Component {
+class Left extends Component {
+  componentWillMount() {
+    this.props.dispatch(fetchSourceList);
+  }
+
   render() {
     return (
       <div style={style.leftBar}>
@@ -22,3 +28,5 @@ export default class extends Component {
     );
   }
 }
+
+export default connect(() => ({}))(Left);
