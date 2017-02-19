@@ -1,0 +1,87 @@
+$toggle-padding = 12px;
+
+/* Base */
+.toggle-scaffold {
+    position: relative;
+
+    .toggle {
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-left: -($toggle-padding); // Account for animation padding
+    }
+
+    /* Label */
+    .toggle-label {
+        font-size: 16px;
+        font-weight: $medium;
+        padding-top: $toggle-padding;
+        padding-right: $toggle-padding;
+        padding-bottom: $toggle-padding;
+    }
+
+    /* Icon */
+    .toggle-icon {
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        width: 24px + ($toggle-padding * 2);
+        height: 24px + ($toggle-padding * 2);
+        border-radius: 100%;
+        padding: $toggle-padding;
+        flex-shrink: 0;
+    }
+
+    .toggle-icon svg {
+        fill: $gray;
+    }
+
+    .toggle-icon.toggle-icon--checked svg {
+        fill: $primary;
+    }
+
+    /* Icon ripple animation */
+    .toggle-icon:after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        background-color: $primary;
+        transform: scale(0, 0);
+        opacity: 0.2;
+        transition: 0s;
+    }
+
+    .toggle-icon.toggle-icon--checked:after {
+        transform: scale(1, 1);
+        opacity: 0;
+        transition: transform 0.5s, opacity 1s;
+    }
+
+    /* Focus styles */
+    .toggle:focus {
+        outline: none; // Disable default focus glow on entire label wrapper
+    }
+
+    .toggle:not(.toggle--disabled):focus .toggle-icon--checkbox svg {
+        border-radius: 5px;
+        box-shadow: inset 0px 0px 0px 3px rgba($primary, 0.5);
+    }
+
+    .toggle:not(.toggle--disabled):focus .toggle-icon--radio svg {
+        border-radius: 100%;
+        box-shadow: inset 0px 0px 0px 2px rgba($primary, 0.5);
+    }
+
+    /* Disabled styles */
+    .toggle--disabled {
+        cursor: not-allowed !important;
+        opacity: 0.65;
+    }
+}

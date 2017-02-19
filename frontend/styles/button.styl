@@ -1,0 +1,188 @@
+/* Base */
+.button {
+  font-family: $sans;
+  font-weight: $bold;
+  display: inline-block;
+  background-color: transparent;
+  border-radius: 8px;
+  border-width: 2px;
+  border-style: solid;
+  padding: 12px 24px;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-transform: uppercase;
+  transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+  user-select: none;
+}
+
+.button[disabled] {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+/* Colors */
+.button--color--primary {
+  border-color: $primary;
+  background-color: $primary;
+  color: $white;
+
+  &:hover {
+    color: $white;
+  }
+
+  &:not(.button--disabled):hover {
+    background: lighten($primary, 60%);
+    border-color: lighten($primary, 60%);
+  }
+
+  &:not(.button--disabled):active {
+    background: darken($primary, 25%);
+    border-color: darken($primary, 25%);
+  }
+
+  &.button--theme--outline {
+    background-color: $white;
+    color: $primary;
+
+    &:not(.button--disabled):hover {
+      background: $white;
+      color: lighten($primary, 60%);
+    }
+
+    &:not(.button--disabled):active {
+      color: darken($primary, 25%);
+    }
+  }
+}
+
+.button--color--secondary {
+  border-color: $secondary;
+  background-color: $secondary;
+  color: $white;
+
+  &:hover {
+    color: $white;
+  }
+
+  &:not(.button--disabled):hover {
+    background: lighten($secondary, 60%);
+    border-color: lighten($secondary, 60%);
+  }
+
+  &:active:not(.button--disabled) {
+    background: darken($secondary, 25%);
+    border-color: darken($secondary, 25%);
+  }
+
+  &.button--theme--outline {
+    background-color: $white;
+    color: $secondary;
+
+    &:not(.button--disabled):hover {
+      background: $white;
+      color: lighten($secondary, 60%);
+    }
+
+    &:not(.button--disabled):active {
+      color: darken($secondary, 25%);
+    }
+  }
+}
+
+.button--color--dark {
+  border-color: $darkgray;
+  background-color: $darkgray;
+  color: $white;
+
+  &:hover {
+    color: $white;
+  }
+
+  &:not(.button--disabled):hover {
+    background: lighten($darkgray, 60%);
+    border-color: lighten($darkgray, 60%);
+  }
+
+  &:active:not(.button--disabled) {
+    background: darken($darkgray, 25%);
+    border-color: darken($darkgray, 25%);
+  }
+
+  &.button--theme--outline {
+    background-color: $white;
+    color: $darkgray;
+
+    &:not(.button--disabled):hover {
+      background: $white;
+      color: lighten($darkgray, 60%);
+    }
+
+    &:not(.button--disabled):active {
+      color: darken($darkgray, 25%);
+    }
+  }
+}
+
+.button--color--light {
+  border-color: $lightgrey;
+  background-color: $lightgrey;
+  color: $white;
+
+  &:hover {
+    color: $white;
+  }
+
+  &:not(.button--disabled):hover {
+    background: lighten($lightgrey, 60%);
+    border-color: lighten($lightgrey, 60%);
+  }
+
+  &:active:not(.button--disabled) {
+    background: darken($lightgrey, 25%);
+    border-color: darken($lightgrey, 25%);
+  }
+
+  &.button--theme--outline {
+    background-color: $white;
+    color: $lightgrey;
+
+    &:not(.button--disabled):hover {
+      background: $white;
+      color: lighten($lightgrey, 60%);
+    }
+
+    &:not(.button--disabled):active {
+      color: darken($lightgrey, 25%);
+    }
+  }
+}
+
+/* Sizes */
+.button--size--small {
+  min-width: 144px;
+  padding: 16px;
+  font-size: 14px;
+}
+
+.button--size--large {
+  min-width: 180px;
+  padding: 18px;
+  font-size: 18px;
+}
+
+/* Full Width */
+.button--full-width {
+  display: block;
+  width: 100%;
+}
+
+/* Children */
+.button__children {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}

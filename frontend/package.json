@@ -1,0 +1,43 @@
+{
+  "author": "Synapse Studios",
+  "name": "frontend-template",
+  "version": "0.0.0",
+  "description": "A quickstart React frontend template",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/synapsestudios/frontend-template.git"
+  },
+  "scripts": {
+    "start": "stylus -w styles/index.styl -o src/index.css & react-scripts start",
+    "build": "stylus styles/index.styl -o src/index.css && react-scripts build",
+    "dist": "npm run build && zip -r -FS build.zip ./build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "http://api:9000",
+  "devDependencies": {
+    "react-scripts": "0.8.5",
+    "stylus": "0.54.5"
+  },
+  "dependencies": {
+    "@synapsestudios/fetch-client": "^1.0.0",
+    "classnames": "^2.2.5",
+    "history": "^3.2.1",
+    "immutable": "^3.8.1",
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0",
+    "react-redux": "^4.4.6",
+    "react-router": "^3.0.0",
+    "react-router-scroll": "^0.4.1",
+    "redux": "^3.6.0",
+    "redux-devtools": "^3.3.1",
+    "redux-devtools-dock-monitor": "^1.1.1",
+    "redux-devtools-log-monitor": "^1.1.1",
+    "redux-responsive": "^4.0.0",
+    "redux-thunk": "^2.1.0",
+    "store2": "^2.3.2",
+    "synfrastructure": "^7.0.0",
+    "url-search-params": "^0.6.1"
+  }
+}

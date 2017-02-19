@@ -1,0 +1,40 @@
+.logo {
+    width: 200px !important;
+    height: 200px !important;
+    fill: $primary !important;
+}
+
+.container > * {
+    margin: 32px auto;
+}
+
+.styleguide__typography > * + * {
+    margin-top: 32px;
+}
+
+.styleguide__title {
+    margin-bottom: 16px;
+    font-size: 26px;
+    font-weight: $medium;
+}
+
+.styleguide__row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    > * {
+        margin-right: 16px;
+        margin-top: 16px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
