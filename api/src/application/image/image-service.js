@@ -23,7 +23,7 @@ class ImageService {
     fetchImageList(query) {
 
         return this.bookshelf.model('image').fetchPage({
-            withRelated: ['file'],
+            withRelated: ['files'],
             page: query.page,
             pageSize: 50
         })

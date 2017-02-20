@@ -8,7 +8,7 @@ class SourceModel {
             idAttribute : 'id',
             hasTimestamps : true,
 
-            file() {
+            files() {
 
                 return this.hasMany('image-file');
             }
