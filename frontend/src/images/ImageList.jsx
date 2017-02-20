@@ -7,6 +7,27 @@ class ImageList extends Component {
   componentWillMount() {
     const page = this.props.location.query.page || 1;
     this.props.dispatch(fetchImageList(page));
+
+    document.onkeyup = (e) => {
+      const { page, pageCount } = this.props.pagination.toJS();
+      const { router } = this.props;
+
+      if(e.keyCode === 39) {
+        // navigate next
+        console.log('navigate next');
+        if (page < pageCount) {
+          router.push(`/?page=${page + 1}`);
+        }
+      }
+
+      if (e.keyCode === 37) {
+        // navigate prev
+        if (page > 1) {
+          console.log('navigate previous');
+          router.push(`/?page=${page - 1}`)
+        }
+      }
+    }
   }
 
   componentWillUpdate(nextProps) {
