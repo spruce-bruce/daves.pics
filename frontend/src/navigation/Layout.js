@@ -5,7 +5,7 @@ import Bottom from './Bottom';
 const style = {
   app : {
     display: 'flex',
-    height: '100vh',
+    minHeight: '100vh',
   },
   right : {
     padding: '1% 1% 0 1%',

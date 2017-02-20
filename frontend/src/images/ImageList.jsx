@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchImageList } from './image-actions';
+import Pagination from '../common/Pagination';
 
 class ImageList extends Component {
   componentWillMount() {
-    this.props.dispatch(fetchImageList(1));
+    const page = this.props.location.query.page || 1;
+    this.props.dispatch(fetchImageList(page));
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.location.query.page !== nextProps.location.query.page) {
+      const page = nextProps.location.query.page || 1;
+      this.props.dispatch(fetchImageList(page));
+    }
   }
 
   pickThumb = (files) => {
@@ -13,14 +22,19 @@ class ImageList extends Component {
 
   renderImage = (image) => {
 
-    return <img key={image.get('id')} alt="family doing stuff" src={this.pickThumb(image.get('files'))} />;
+    return <img key={image.get('id')} alt="no description yet" src={this.pickThumb(image.get('files'))} />;
   }
 
   render() {
-    const { imageList } = this.props;
+    const { imageList, pagination } = this.props;
+    console.log(pagination.toJS());
     return (
       <div>
-        {imageList.map(image => this.renderImage(image))}
+        {imageList.size ? imageList.map(image => this.renderImage(image)) : 'Loading...'}
+        {imageList.size ? (<Pagination
+          page={pagination.get('page')}
+          pageCount={pagination.get('pageCount')}
+        />) : null}
       </div>
     );
   }
@@ -30,5 +44,6 @@ export default connect(state => {
   return {
     loaded: state.images.list.get('loaded'),
     imageList: state.images.list.getIn(['data', 'collection']),
+    pagination: state.images.list.getIn(['data', 'pagination']),
   };
 })(ImageList);

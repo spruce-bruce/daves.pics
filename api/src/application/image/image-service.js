@@ -22,11 +22,13 @@ class ImageService {
 
     fetchImageList(query) {
 
-        return this.bookshelf.model('image').fetchPage({
-            withRelated: ['files'],
-            page: query.page,
-            pageSize: 50
-        })
+        return this.bookshelf.model('image').forge()
+            .orderBy('created_at', 'DESC')
+            .fetchPage({
+                withRelated: ['files'],
+                page: query.page,
+                pageSize: 9
+            })
             .then((collection) => {
 
                 return {
