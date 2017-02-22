@@ -55,3 +55,19 @@ services:
       - postgres
     entrypoint: ./wait-for-it.sh -t 0 postgres:5432 --
     command: ["npm", "run", "migrate-seed"]
+  image-processor:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+      args:
+        PACKAGE_PATH: ./api/package.json
+        WORKING_DIR: /src/api
+    env_file:
+      - ./common.env
+      - ../aws-key.env
+    volumes:
+      - .:/src
+    depends_on:
+      - postgres
+    entrypoint: ./wait-for-it.sh -t 0 postgres:5432 --
+    command: ["npm", "run", "-s", "process-shared-queue"]
