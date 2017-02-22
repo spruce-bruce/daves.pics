@@ -3,13 +3,16 @@ import { applyRouterMiddleware, browserHistory, Route, Router, IndexRoute } from
 import { useScroll } from 'react-router-scroll';
 
 import Layout from './navigation/Layout';
-import ImageList from './images/ImageList';
+import NewestImages from './images/NewestImages';
+import SourceImages from './sources/SourceImages';
 import StyleGuidePage from './style-guide/StyleGuidePage';
 
 export default (
   <Router history={browserHistory} render={applyRouterMiddleware(useScroll())}>
     <Route path="/" component={Layout}>
-      <IndexRoute component={ImageList} />
+      <IndexRoute component={NewestImages} />
+      <Route path="source/:sourceId" component={SourceImages} />
+
       <Route path="style-guide" component={StyleGuidePage} />
     </Route>
   </Router>

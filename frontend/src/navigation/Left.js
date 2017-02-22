@@ -22,7 +22,7 @@ class Left extends Component {
   renderList = () => {
     const { sourceList } = this.props;
     return !sourceList.size ? <div>Empty :(</div> : sourceList.map(source => (
-      <Link key={`source-${source.get('id')}`}>{source.get('name')}</Link>
+      <Link to={`/source/${source.get('id')}`} key={`source-${source.get('id')}`}>{source.get('name')}</Link>
     ));
   }
 
@@ -30,6 +30,7 @@ class Left extends Component {
     const { loaded } = this.props;
     return (
       <div style={style.leftBar}>
+        <Link to="/">Newest Images</Link>
         <h3>Sources</h3><br />
 
         { !loaded ? <div>Loading...</div> : this.renderList() }

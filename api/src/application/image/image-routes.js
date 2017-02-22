@@ -15,6 +15,7 @@ module.exports = (service) => {
             config: {
                 validate: {
                     query: {
+                        source: Joi.string(),
                         page: Joi.number()
                     }
                 }

@@ -20,13 +20,20 @@ class ImageService {
         this.bookshelf = bookshelf;
     }
 
-    fetchImageList(query) {
+    fetchImageList(search) {
+
+        const query = this.bookshelf.model('image').forge()
+            .orderBy('created_at', 'DESC');
+
+        if (search.source) {
+            query.where('source_id', search.source);
+        }
 
         return this.bookshelf.model('image').forge()
             .orderBy('created_at', 'DESC')
             .fetchPage({
                 withRelated: ['files'],
-                page: query.page,
+                page: search.page,
                 pageSize: 9
             })
             .then((collection) => {

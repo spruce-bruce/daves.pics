@@ -12,8 +12,9 @@ const style = {
 
 export default class extends Component {
   static propTypes = {
-    page: PropTypes.number,
-    pageCount: PropTypes.number,
+    page: PropTypes.number.isRequired,
+    pageCount: PropTypes.number.isRequired,
+    pathname: PropTypes.string.isRequired,
   };
 
   calculateStart = () => {
@@ -34,34 +35,34 @@ export default class extends Component {
   }
 
   addPrev = (links) => {
-    const { page } = this.props;
+    const { page, pathname } = this.props;
     if (page > 4) {
-      links.push(<li style={style.link} key={`first`}><Link to={{query: {page: 1}}}>&laquo;</Link></li>);
+      links.push(<li style={style.link} key={`first`}><Link to={{pathname, query: {page: 1}}}>&laquo;</Link></li>);
     }
 
     if (page > 1) {
-      links.push(<li style={style.link} key={`prev`}><Link to={{query: {page: page - 1}}}>&lt;</Link></li>);
+      links.push(<li style={style.link} key={`prev`}><Link to={{pathname, query: {page: page - 1}}}>&lt;</Link></li>);
     }
 
     return links;
   }
 
   addNext = (links) => {
-    const { pageCount, page } = this.props;
+    const { pageCount, page, pathname } = this.props;
 
     if ( page < pageCount ) {
-      links.push(<li style={style.link} key={`next`}><Link to={{query: {page: page + 1}}}>&gt;</Link></li>);
+      links.push(<li style={style.link} key={`next`}><Link to={{pathname, query: {page: page + 1}}}>&gt;</Link></li>);
     }
 
     if ( page < (pageCount - 3) ) {
-      links.push(<li style={style.link} key={`last`}><Link to={{query: {page: pageCount}}}>&raquo;</Link></li>);
+      links.push(<li style={style.link} key={`last`}><Link to={{pathname, query: {page: pageCount}}}>&raquo;</Link></li>);
     }
 
     return links;
   }
 
   renderLinks = () => {
-    const { page } = this.props;
+    const { page, pathname } = this.props;
     const start = this.calculateStart(), stop = this.calculateStop(start);
     let links = [];
 
@@ -70,7 +71,7 @@ export default class extends Component {
       if (page === i) {
         links.push(<li style={style.link} key={`page-current`}><span>{i}</span></li>);
       } else {
-        links.push(<li style={style.link} key={`page-${i}-link`}><Link to={{query: {page: i}}}>{i}</Link></li>);
+        links.push(<li style={style.link} key={`page-${i}-link`}><Link to={{pathname, query: {page: i}}}>{i}</Link></li>);
       }
     }
     this.addNext(links);
