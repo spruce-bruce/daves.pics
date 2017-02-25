@@ -1,6 +1,6 @@
 'use strict';
 
-const Colors = require('colors'); // eslint-disable-line no-unused-vars
+require('colors');
 const Assert = require('assert');
 const Gm = require('gm');
 const Uuid = require('uuid');
@@ -21,7 +21,6 @@ class ImageService {
     }
 
     fetchImageList(search) {
-
         const query = this.bookshelf.model('image').forge()
             .orderBy('created_at', 'DESC');
 
@@ -46,7 +45,6 @@ class ImageService {
     }
 
     makeThumb(imageBuffer, height) {
-
         console.log('Creating thumbnail...'.blue);
 
         return new Promise((resolve, reject) => {
@@ -67,7 +65,6 @@ class ImageService {
     }
 
     uploadImage(buffer, filename, destinationBucket) {
-
         console.log(`beginning file upload for ${filename}...`.blue);
         const uploadParams = { Bucket: destinationBucket || this.destinationBucket, Key: filename, Body: buffer };
         return this.s3.upload(uploadParams).promise()
@@ -79,7 +76,6 @@ class ImageService {
     }
 
     getImageInfo(buffer) {
-
         return new Promise((resolve, reject) => {
 
             Gm(buffer).identify((err, data) => {
@@ -93,7 +89,6 @@ class ImageService {
     }
 
     makeImageRecord(key, imageDataList) {
-
         console.log(`Creating image record for ${key}...`.blue);
 
         return this.bookshelf.model('image').forge()
@@ -102,27 +97,23 @@ class ImageService {
                 source_id : 'wd-cloud',
                 source_meta : key
             }, { method: 'insert' })
-            .then((image) =>
-
-                Promise.all(imageDataList.map((imageData, idx) =>
-
-                    this.bookshelf.model('image-file').forge().save({
-                        key : imageData[0].key,
-                        image_id : image.get('id'),
-                        bucket : this.destinationBucket,
-                        type : idx === 0 ? 'original' : 'thumb',
-                        location : imageData[0].Location,
-                        width : imageData[1].size.width,
-                        height : imageData[1].size.height,
-                        image_data : imageData[1]
-                    }, { method: 'insert' }))
-                )
-                .then(() => console.log(`Image object created successfully with id ${image.get('id')}`.green))
-            );
+            .then((image) => Promise.all(imageDataList.map((imageData, idx) =>
+                this.bookshelf.model('image-file').forge().save({
+                    key : imageData[0].key,
+                    image_id : image.get('id'),
+                    bucket : this.destinationBucket,
+                    type : idx === 0 ? 'original' : 'thumb',
+                    location : imageData[0].Location,
+                    width : imageData[1].size.width,
+                    height : imageData[1].size.height,
+                    image_data : imageData[1]
+                }, { method: 'insert' }))
+            )
+            .then(() => console.log(`Image object created successfully with id ${image.get('id')}`.green))
+        );
     }
 
     createImageFromS3Key(sourceBucket, key) {
-
         console.log(`Creating image: ${key}`.cyan);
         const params = {
             Bucket: sourceBucket,
@@ -151,7 +142,6 @@ class ImageService {
     }
 
     bucketCopy(key, sourceBucket, destinationBucket) {
-
         console.log(`Copying ${key} from ${sourceBucket} to ${destinationBucket}`.cyan);
         const params = {
             Bucket: sourceBucket,

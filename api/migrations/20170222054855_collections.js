@@ -5,15 +5,16 @@ exports.up = (knex, Promise) => {
         table.string('name');
         table.string('source_id').references('sources.id');
         table.integer('parent_collection').references('collections.id');
+        table.timestamps();
     })
-        .then(() => knex.schema.createTable('image_collection', (table) => {
-            table.uuid('image_id').references('images.id');
+        .then(() => knex.schema.table('images', table => {
             table.integer('collection_id').references('collections.id');
-            table.primary(['image_id', 'collection_id']);
         }));
 };
 
 exports.down = (knex, Promise) => {
-    return knex.schema.dropTable('image_collection')
+    return knex.schema.table('images', table => {
+        table.dropColumn('collection_id');
+    })
         .then(() => knex.schema.dropTable('collections'));
 };

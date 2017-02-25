@@ -31,7 +31,8 @@ exports.register = (server, options, next) => {
     Promise.all([
         ioc.create('source/source-model'),
         ioc.create('image/image-model'),
-        ioc.create('image/image-file-model')
+        ioc.create('image/image-file-model'),
+        ioc.create('collection/collection-model'),
     ])
         .then(() =>
 

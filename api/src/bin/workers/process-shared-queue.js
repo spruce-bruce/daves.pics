@@ -1,8 +1,8 @@
 'use strict';
 
 require('colors');
-const App = require('./cli-app');
-const Buckets = require('../../config')('/fileBuckets');
+const App = require('../cli-app');
+const Buckets = require('../../../config')('/fileBuckets');
 
 let imageService;
 let sqs;

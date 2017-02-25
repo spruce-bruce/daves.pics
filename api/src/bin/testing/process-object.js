@@ -1,6 +1,6 @@
 'use strict';
 
-const App = require('./cli-app');
+const App = require('../cli-app');
 
 Promise.all([
     App.create('image/image-service'),
@@ -14,11 +14,9 @@ Promise.all([
         bookshelf : values[1]
     }))
     .then((lib) => {
-
         return lib.imageService.createImageFromS3Key('david-unprocessed', 'Shared Pictures/2014.09.19_MikeJuliesWedding/DSC_0063.JPG')
             .then(() => lib.bookshelf.knex.destroy())
             .then(() => {
-
                 console.log('done!');
             })
             .catch((err) => {

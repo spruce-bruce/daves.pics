@@ -54,7 +54,7 @@ services:
     depends_on:
       - postgres
     entrypoint: ./wait-for-it.sh -t 0 postgres:5432 --
-    command: ["npm", "run", "migrate-seed"]
+    command: ["npm", "run", "-s", "migrate-seed"]
   image-processor:
     build:
       context: .

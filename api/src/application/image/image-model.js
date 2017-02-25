@@ -9,8 +9,11 @@ class SourceModel {
             hasTimestamps : true,
 
             files() {
-
                 return this.hasMany('image-file');
+            },
+
+            source() {
+                return this.belongsTo('source');
             }
         });
     }
