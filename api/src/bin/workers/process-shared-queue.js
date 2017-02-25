@@ -137,7 +137,6 @@ const handleObject = function (message) {
 };
 
 const readMessage = function () {
-
     const concurrency = 2;
     const params = {
         AttributeNames: [
@@ -154,7 +153,6 @@ const readMessage = function () {
 
     sqs.receiveMessage(params).promise()
         .then((data) => {
-
             if (data.Messages) {
                 const msgCount = data.Messages.length;
                 console.log(`Received ${msgCount} message${msgCount > 1 ? 's' : ''}!`.green);
@@ -181,7 +179,6 @@ const readMessage = function () {
             console.log('received nothing'.yellow);
         })
         .then(() => {
-
             console.log('Calling readMessage'.cyan);
             readMessage();
         });
@@ -193,7 +190,8 @@ Promise.all([
 
     App.create('source/source-model'),
     App.create('image/image-model'),
-    App.create('image/image-file-model')
+    App.create('image/image-file-model'),
+    App.create('collection/collection-model'),
 ])
     .then((values) => {
 

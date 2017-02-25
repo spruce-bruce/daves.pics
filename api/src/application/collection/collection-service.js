@@ -20,12 +20,7 @@ class CollectionService {
     }
 
     processFilesystemCollection(image) {
-        console.log(`source meta: ${image.get('source_meta')}`);
-        console.log(`source: ${image.get('source_id')}`);
-
         const path = image.get('source_meta').split('/');
-        console.log(path);
-
         let promise = Promise.resolve();
         for (let i = 0; i < path.length - 1; ++i) {
             promise = promise.then(collection => this.fetchOrCreateCollection(
@@ -43,7 +38,6 @@ class CollectionService {
     }
 
     fetchOrCreateCollection(name, sourceId, parentCollectionId) {
-        console.log(`fetch or create. name: ${name}, sourceId: ${sourceId}, parentCollectionId: ${parentCollectionId}`);
         return this.bookshelf.model('collection').where({ name, source_id: sourceId }).fetch()
             .then(collection => {
                 return collection

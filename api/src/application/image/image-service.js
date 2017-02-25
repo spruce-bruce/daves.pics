@@ -13,11 +13,12 @@ const allowedContentTypes = [
 ];
 
 class ImageService {
-    constructor(aws, bookshelf) {
+    constructor(aws, bookshelf, collectionService) {
 
         this.destinationBucket = Buckets.destinationBucket;
         this.s3 = new aws.S3();
         this.bookshelf = bookshelf;
+        this.collectionService = collectionService;
     }
 
     fetchImageList(search) {
@@ -97,6 +98,9 @@ class ImageService {
                 source_id : 'wd-cloud',
                 source_meta : key
             }, { method: 'insert' })
+            .then(image => {
+                return this.collectionService.processImageCollection(image).then(() => image);
+            })
             .then((image) => Promise.all(imageDataList.map((imageData, idx) =>
                 this.bookshelf.model('image-file').forge().save({
                     key : imageData[0].key,
@@ -155,4 +159,4 @@ class ImageService {
 
 module.exports = ImageService;
 module.exports['@singleton'] = true;
-module.exports['@require'] = ['aws', 'bookshelf'];
+module.exports['@require'] = ['aws', 'bookshelf', 'collection/collection-service'];
