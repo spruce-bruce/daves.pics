@@ -12,11 +12,12 @@ class ImageList extends Component {
   };
 
   componentWillMount() {
+    const { pathname } = this.props;
     document.onkeyup = (e) => {
       const { page, pageCount } = this.props.pagination.toJS();
       const { routerPush } = this.props;
-      if (e.keyCode === 39 && page < pageCount) routerPush(`/?page=${page + 1}`);
-      if (e.keyCode === 37 && page > 1) routerPush(`/?page=${page - 1}`);
+      if (e.keyCode === 39 && page < pageCount) routerPush(`${pathname}?page=${page + 1}`);
+      if (e.keyCode === 37 && page > 1) routerPush(`${pathname}?page=${page - 1}`);
     }
   }
 
