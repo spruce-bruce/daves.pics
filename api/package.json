@@ -10,6 +10,7 @@
     "rebuild-db": "npm run -s drop-tables && knex migrate:latest && knex seed:run",
     "migrate-seed": "knex migrate:latest && knex seed:run",
     "process-shared-queue": "nodemon ./src/bin/workers/process-shared-queue.js",
+    "process-shared-queue-prod": "node ./src/bin/workers/process-shared-queue.js",
     "queue-shared": "node ./src/bin/queue-shared.js",
     "process-object": "node ./src/bin/testing/process-object.js",
     "process-collection": "node ./src/bin/testing/process-collection.js"
