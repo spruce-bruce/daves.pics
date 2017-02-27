@@ -7,7 +7,34 @@ class CollectionService {
     }
 
     fetchCollectionList(sourceId) {
-        return Promise.resolve({ message: `source ${sourceId}` });
+        // return Promise.resolve({ message: `source ${sourceId}` });
+        return this.bookshelf.model('collection')
+            .where('source_id', sourceId)
+            .orderBy('parent_collection')
+            .fetchAll()
+            .then(collectionList => {
+                collectionList = collectionList.serialize();
+                const nestedCollection = [];
+                const collectionMap = {};
+
+                while (collectionList.length) {
+                    const collection = collectionList.shift();
+                    collectionMap[collection.id] = collection;
+
+                    if (collection.parent_collection === null) {
+                        nestedCollection.push(collection);
+                    } else if (collectionMap[collection.parent_collection]) {
+                        let children = collectionMap[collection.parent_collection].children;
+                        children = children ? children : [];
+                        children.push(collection);
+                        collectionMap[collection.parent_collection].children = children;
+                    } else {
+                        collectionList.push(collection);
+                    }
+                }
+
+                return nestedCollection;
+            });
     }
 
     processImageCollection(image) {

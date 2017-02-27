@@ -4,10 +4,10 @@ module.exports = (service, mixedValidation, rowExists) => {
     return [{
         method: 'GET',
         path: '/source/{sourceId}/collection/list',
-        handler: (request, reply) => {
-            reply(service.fetchCollectionList(request.params.sourceId));
-        },
         config: {
+            handler: (request, reply) => {
+                reply(service.fetchCollectionList(request.params.sourceId));
+            },
             validate: {
                 params : mixedValidation({
                     sourceId: Joi.string().required()
