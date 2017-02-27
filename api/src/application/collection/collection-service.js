@@ -6,11 +6,14 @@ class CollectionService {
         this.bookshelf = bookshelf;
     }
 
+    fetchCollectionList(sourceId) {
+        return Promise.resolve({ message: `source ${sourceId}` });
+    }
+
     processImageCollection(image) {
         console.log(`Processing image's collection for ${image.get('id')}`.blue);
 
         return image.load('source').then(imageWithSource => {
-            console.log(imageWithSource.related('source').get('type'));
             switch (imageWithSource.related('source').get('type')) {
                 case 'filesystem':
                     return this.processFilesystemCollection(imageWithSource);

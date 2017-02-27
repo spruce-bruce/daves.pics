@@ -35,10 +35,10 @@ exports.register = (server, options, next) => {
         ioc.create('collection/collection-model'),
     ])
         .then(() =>
-
             Promise.all([
                 ioc.create('source/source-routes'),
-                ioc.create('image/image-routes')
+                ioc.create('image/image-routes'),
+                ioc.create('collection/collection-routes'),
             ])
         )
         .then((routeArrays) => {
