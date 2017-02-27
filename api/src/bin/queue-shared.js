@@ -1,5 +1,6 @@
 'use strict';
 const App = require('./cli-app');
+const QueueConfig = require('../../config')('/queue');
 
 Promise.all([
     App.create('aws')
@@ -23,7 +24,7 @@ Promise.all([
                 }
             },
             MessageBody: 'Shared Pictures/',
-            QueueUrl: 'https://sqs.us-west-2.amazonaws.com/071794271341/shared-queue'
+            QueueUrl: QueueConfig.imageQueueUrl,
         };
 
         sqs.sendMessage(params, (err, data) => {

@@ -18,6 +18,9 @@ const config = {
             sourceBucket: process.env.SOURCE_BUCKET,
             destinationBucket: process.env.DESTINATION_BUCKET,
             unprocessableBucket: process.env.UNPROCESSABLE_BUCEKT
+        },
+        queue: {
+            imageQueueUrl: process.env.IMAGE_QUEUE_URL,
         }
     },
     'development': {},

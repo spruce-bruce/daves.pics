@@ -3,7 +3,7 @@
 require('colors');
 const App = require('../cli-app');
 const Buckets = require('../../../config')('/fileBuckets');
-
+const QueueConfig = require('../../../config')('/queue');
 let imageService;
 let sqs;
 let s3;
@@ -12,12 +12,12 @@ const deleteMessage = function (message) {
 
     console.log(`Deleting message ${message.MessageId}`.magenta);
     sqs.deleteMessage({
-        QueueUrl: 'https://sqs.us-west-2.amazonaws.com/071794271341/shared-queue',
+        QueueUrl: QueueConfig.imageQueueUrl,
         ReceiptHandle: message.ReceiptHandle
     }, (err, data) => {
 
         if (err) {
-            console.logg(err, err.stack);
+            console.log(err, err.stack);
         }
     });
 };
@@ -38,7 +38,7 @@ const enqueuePrefix = function (prefix, source) {
                 }
             },
             MessageBody: prefix.Prefix,
-            QueueUrl: 'https://sqs.us-west-2.amazonaws.com/071794271341/shared-queue'
+            QueueUrl: QueueConfig.imageQueueUrl,
         };
 
         sqs.sendMessage(prefixParams, (err, data) => {
@@ -69,7 +69,7 @@ const enqueueObject = function (object, source) {
                 }
             },
             MessageBody: object.Key,
-            QueueUrl: 'https://sqs.us-west-2.amazonaws.com/071794271341/shared-queue'
+            QueueUrl: QueueConfig.imageQueueUrl,
         };
         sqs.sendMessage(prefixParams, (err, data) => {
 
@@ -147,7 +147,7 @@ const readMessage = function () {
         MessageAttributeNames: [
             'All'
         ],
-        QueueUrl: 'https://sqs.us-west-2.amazonaws.com/071794271341/shared-queue',
+        QueueUrl: QueueConfig.imageQueueUrl,
         WaitTimeSeconds: 20
     };
 
