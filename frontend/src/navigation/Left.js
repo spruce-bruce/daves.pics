@@ -19,21 +19,28 @@ class Left extends Component {
     this.props.dispatch(fetchSourceList());
   }
 
-  renderList = () => {
-    const { sourceList } = this.props;
-    return !sourceList.size ? <div>Empty :(</div> : sourceList.map(source => (
+  renderSourceList = () => {
+    const { sourcesLoaded, sourceList } = this.props;
+    const renderListItems = () => !sourceList.size ? <div>Empty :(</div> : sourceList.map(source => (
       <Link to={`/source/${source.get('id')}`} key={`source-${source.get('id')}`}>{source.get('name')}</Link>
     ));
+
+    return (
+      <div>
+        <h3>Srouces</h3><br />
+        { !sourcesLoaded
+          ? <div>Loading...</div>
+          : renderListItems() }
+      </div>
+    );
   }
 
   render() {
-    const { loaded } = this.props;
+    const { sourceId } = this.props;
     return (
       <div style={style.leftBar}>
-        <Link to="/">Newest Images</Link>
-        <h3>Sources</h3><br />
-
-        { !loaded ? <div>Loading...</div> : this.renderList() }
+        <Link to="/">Newest Images</Link><br />
+        {!sourceId ? this.renderSourceList() : 'collections'}
       </div>
     );
   }
@@ -41,7 +48,7 @@ class Left extends Component {
 
 export default connect(state => {
   return {
-    loaded: state.sources.list.get('loaded'),
+    sourcesLoaded: state.sources.list.get('loaded'),
     sourceList: state.sources.list.get('data')
   };
 })(Left);

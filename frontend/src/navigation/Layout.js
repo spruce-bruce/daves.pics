@@ -37,7 +37,7 @@ export default class Layout extends Component {
   render() {
     return (
       <div style={style.app}>
-        <Left />
+        <Left sourceId={this.props.params.sourceId} />
         <div style={style.right}>
           <div style={style.content}>
             {this.props.children}

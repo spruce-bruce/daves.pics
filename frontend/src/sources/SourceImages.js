@@ -16,10 +16,17 @@ class SourceImages extends Component {
     dispatch(fetchCollectionList(sourceId));
   }
 
-  componentWillUpdate(nextProps) {
-    if (this.props.location.query.page !== nextProps.location.query.page) {
-      const page = nextProps.location.query.page || 1;
-      this.props.dispatch(fetchImageList(page));
+  componentDidUpdate(oldProps) {
+    const { collectionList, location, dispatch } = this.props;
+
+    if (location.query.page !== oldProps.location.query.page) {
+      const page = location.query.page || 1;
+      dispatch(fetchImageList(page));
+    }
+
+    if (collectionList && !oldProps.collectionList) {
+      console.log(`set left nav with collectionList`);
+      console.log(collectionList.toJS());
     }
   }
 
@@ -49,10 +56,13 @@ class SourceImages extends Component {
 }
 
 export default connect((state, ownProps) => {
+  const { params: { sourceId } } = ownProps;
+
   return {
     loaded: state.images.list.get('loaded'),
     imageList: state.images.list.getIn(['data', 'collection']),
     pagination: state.images.list.getIn(['data', 'pagination']),
-    source: state.sources.list.get('data').find(source => source.get('id') === ownProps.params.sourceId),
+    source: state.sources.list.get('data').find(source => source.get('id') === sourceId),
+    collectionList: state.collections.collectionList.getIn([sourceId, 'data'])
   };
 })(SourceImages);
