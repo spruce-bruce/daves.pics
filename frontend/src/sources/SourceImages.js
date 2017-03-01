@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageList from '../images/ImageList';
 import { fetchImageList } from '../images/image-actions';
+import { fetchCollectionList } from '../collections/collection-actions';
 
 class SourceImages extends Component {
   componentWillMount() {
     const page = this.props.location.query.page || 1;
-    this.props.dispatch(fetchImageList(page, {
-      source: this.props.params.sourceId
+    const { dispatch, params: { sourceId } } = this.props;
+
+    dispatch(fetchImageList(page, {
+      source: sourceId
     }));
+
+    dispatch(fetchCollectionList(sourceId));
   }
 
   componentWillUpdate(nextProps) {
