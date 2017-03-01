@@ -27,10 +27,23 @@ class Left extends Component {
 
     return (
       <div>
-        <h3>Srouces</h3><br />
-        { !sourcesLoaded
-          ? <div>Loading...</div>
-          : renderListItems() }
+        <h3>Sources</h3><br />
+        { !sourcesLoaded ? <div>Loading...</div> : renderListItems() }
+      </div>
+    );
+  }
+
+  renderCollectionList = () => {
+    const { collectionListLoaded, collectionList } = this.props;
+
+    const renderListItems = () => !collectionList.size ? <div>Empty :(</div> : collectionList.map(collection => (
+      <Link key={`collection-${collection.get('id')}`}>{collection.get('name')}</Link>
+    ));
+
+    return (
+      <div>
+        <h3>Collections</h3><br />
+        { ! collectionListLoaded ? <div>Loading...</div> : renderListItems() }
       </div>
     );
   }
@@ -40,15 +53,20 @@ class Left extends Component {
     return (
       <div style={style.leftBar}>
         <Link to="/">Newest Images</Link><br />
-        {!sourceId ? this.renderSourceList() : 'collections'}
+        {!sourceId
+          ? this.renderSourceList()
+          : this.renderCollectionList()}
       </div>
     );
   }
 }
 
-export default connect(state => {
+export default connect((state, props) => {
+  const { sourceId } = props;
   return {
     sourcesLoaded: state.sources.list.get('loaded'),
-    sourceList: state.sources.list.get('data')
+    sourceList: state.sources.list.get('data'),
+    collectionList: sourceId ? state.collections.collectionList.getIn([sourceId, 'data']) : null,
+    collectionListLoaded: sourceId ? state.collections.collectionList.getIn([sourceId, 'loaded']) : false,
   };
 })(Left);
