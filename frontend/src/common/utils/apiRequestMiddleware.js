@@ -4,7 +4,13 @@ export default () => next => (action) => {
   }
 
   function makeAction(status, data) {
-    const newAction = { ...action, ...{ type: `${action.type}_${status}` }, ...data };
+    const newAction = {
+      ...action,
+      ...{ type: `${action.type}_${status}` },
+      ...data,
+      originalType: action.type,
+    };
+
     delete newAction.promise;
     return newAction;
   }
