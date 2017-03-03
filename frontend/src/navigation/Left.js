@@ -9,8 +9,11 @@ const style = {
     backgroundColor: 'black',
     display: 'flex',
     flexDirection: 'column',
-    minWidth: '15%',
+    minWidth: '20%',
     padding: '1%'
+  },
+  links: {
+    display: 'block'
   }
 };
 
@@ -53,13 +56,14 @@ class Left extends Component {
     if (currentCollection && currentCollection.get('children')) {
       splatStr = splat ? `${splat}/` : '';
     } else {
-      splatStr = splat.replace(/[^/]+(?=\/$|$)/, '');
+      splatStr = splat ? splat.replace(/[^/]+(?=\/$|$)/, '') : splatStr;
     }
 
     const renderListItems = () => !renderableCollectionList.size ? <div>Empty :(</div> : renderableCollectionList.map(collection => (
       <Link
         key={`collection-${collection.get('id')}`}
         to={`/source/${sourceId}/${splatStr}${collection.get('name')}`}
+        style={style.links}
       >
         {collection.get('name')}
       </Link>
