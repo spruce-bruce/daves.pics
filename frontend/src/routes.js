@@ -11,7 +11,7 @@ export default (
   <Router history={browserHistory} render={applyRouterMiddleware(useScroll())}>
     <Route path="/" component={Layout}>
       <IndexRoute component={NewestImages} />
-      <Route path="source/:sourceId" component={SourceImages} />
+      <Route path="source/:sourceId(/**)" component={SourceImages} />
 
       <Route path="style-guide" component={StyleGuidePage} />
     </Route>

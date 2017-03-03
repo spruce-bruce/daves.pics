@@ -34,10 +34,35 @@ class Left extends Component {
   }
 
   renderCollectionList = () => {
-    const { collectionListLoaded, collectionList } = this.props;
+    const { collectionListLoaded, collectionList, params: { splat, sourceId } } = this.props;
 
-    const renderListItems = () => !collectionList.size ? <div>Empty :(</div> : collectionList.map(collection => (
-      <Link key={`collection-${collection.get('id')}`}>{collection.get('name')}</Link>
+    const collectionPath = splat ? splat.split('/') : [];
+    const collectionFind = i => collection => collection.get('name') === collectionPath[i];
+
+    let renderableCollectionList = collectionList;
+    let currentCollection;
+
+    for (var i = 0; collectionList && i < collectionPath.length; i++) {
+      currentCollection = renderableCollectionList.find(collectionFind(i));
+      renderableCollectionList = currentCollection && currentCollection.get('children')
+        ? currentCollection.get('children')
+        : renderableCollectionList;
+    }
+
+    let splatStr = '';
+    if (currentCollection && currentCollection.get('children')) {
+      splatStr = splat ? `${splat}/` : '';
+    } else {
+      splatStr = splat.replace(/[^/]+(?=\/$|$)/, '');
+    }
+
+    const renderListItems = () => !renderableCollectionList.size ? <div>Empty :(</div> : renderableCollectionList.map(collection => (
+      <Link
+        key={`collection-${collection.get('id')}`}
+        to={`/source/${sourceId}/${splatStr}${collection.get('name')}`}
+      >
+        {collection.get('name')}
+      </Link>
     ));
 
     return (
@@ -49,7 +74,7 @@ class Left extends Component {
   }
 
   render() {
-    const { sourceId } = this.props;
+    const { params: { sourceId } } = this.props;
     return (
       <div style={style.leftBar}>
         <Link to="/">Newest Images</Link><br />
@@ -62,7 +87,7 @@ class Left extends Component {
 }
 
 export default connect((state, props) => {
-  const { sourceId } = props;
+  const { params: { sourceId } } = props;
   return {
     sourcesLoaded: state.sources.list.get('loaded'),
     sourceList: state.sources.list.get('data'),
