@@ -2,27 +2,33 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageList from '../images/ImageList';
 import { fetchImageList } from '../images/image-actions';
-import { fetchCollectionList } from '../collections/collection-actions';
+import { currentCollectionSelector } from '../collections/collection-selectors';
 
 class SourceImages extends Component {
   componentWillMount() {
-    const page = this.props.location.query.page || 1;
-    const { dispatch, params: { sourceId } } = this.props;
-
-    dispatch(fetchImageList(page, {
-      source: sourceId
-    }));
-
-    dispatch(fetchCollectionList(sourceId));
+    this.fetchImages();
   }
 
   componentDidUpdate(oldProps) {
-    const { location, dispatch } = this.props;
+    const { location, params: { splat } } = this.props;
 
-    if (location.query.page !== oldProps.location.query.page) {
-      const page = location.query.page || 1;
-      dispatch(fetchImageList(page));
+    if (location.query.page !== oldProps.location.query.page || oldProps.params.splat !== splat) {
+      this.fetchImages();
     }
+  }
+
+  fetchImages = () => {
+    const { location, dispatch, collectionList, params: { sourceId, splat } } = this.props;
+    const page = location.query.page || 1;
+    let filter = {
+      source: sourceId,
+    };
+    if (splat) {
+      const currentCollectionValues = currentCollectionSelector(collectionList, splat);
+      filter.collectionId = currentCollectionValues.getIn(['currentCollection', 'id']);
+    }
+
+    dispatch(fetchImageList(page, filter));
   }
 
   render() {
@@ -58,5 +64,6 @@ export default connect((state, ownProps) => {
     imageList: state.images.list.getIn(['data', 'collection']),
     pagination: state.images.list.getIn(['data', 'pagination']),
     source: state.sources.list.get('data').find(source => source.get('id') === sourceId),
+    collectionList: sourceId ? state.collections.collectionList.getIn([sourceId, 'data']) : null,
   };
 })(SourceImages);

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchSourceList } from '../sources/source-actions';
 import { Link } from 'react-router';
 import { currentCollectionSelector } from '../collections/collection-selectors';
+import { fetchCollectionList } from '../collections/collection-actions';
 
 const style = {
   leftBar: {
@@ -20,7 +21,16 @@ const style = {
 
 class Left extends Component {
   componentWillMount() {
-    this.props.dispatch(fetchSourceList());
+    const { dispatch, params: { sourceId } } = this.props;
+    dispatch(fetchSourceList());
+    if (sourceId) dispatch(fetchCollectionList(sourceId));
+  }
+
+  componentDidUpdate(oldProps) {
+    const { dispatch, params: { sourceId } } = this.props;
+    if (sourceId && sourceId !== oldProps.params.sourceId) {
+      dispatch(fetchCollectionList(sourceId));
+    }
   }
 
   renderSourceList = () => {
