@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchSourceList } from '../sources/source-actions';
 import { Link } from 'react-router';
+import { currentCollectionSelector } from '../collections/collection-selectors';
 
 const style = {
   leftBar: {
@@ -39,18 +40,13 @@ class Left extends Component {
   renderCollectionList = () => {
     const { collectionListLoaded, collectionList, params: { splat, sourceId } } = this.props;
 
-    const collectionPath = splat ? splat.split('/') : [];
-    const collectionFind = i => collection => collection.get('name') === collectionPath[i];
+    const collectionValues = currentCollectionSelector(collectionList, splat);
+    const currentCollection = collectionValues.get('currentCollection');
+    const parentCollection = collectionValues.get('parentCollection');
 
-    let renderableCollectionList = collectionList;
-    let currentCollection;
-
-    for (var i = 0; collectionList && i < collectionPath.length; i++) {
-      currentCollection = renderableCollectionList.find(collectionFind(i));
-      renderableCollectionList = currentCollection && currentCollection.get('children')
-        ? currentCollection.get('children')
-        : renderableCollectionList;
-    }
+    const renderableCollectionList = currentCollection
+      ? currentCollection.get('children') ? currentCollection.get('children') : parentCollection.get('children')
+      : collectionList;
 
     let splatStr = '';
     if (currentCollection && currentCollection.get('children')) {

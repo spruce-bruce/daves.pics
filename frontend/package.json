@@ -36,6 +36,7 @@
     "redux-devtools-log-monitor": "^1.1.1",
     "redux-responsive": "^4.0.0",
     "redux-thunk": "^2.1.0",
+    "reselect": "^2.5.4",
     "store2": "^2.3.2",
     "synfrastructure": "^7.0.0",
     "url-search-params": "^0.6.1"
