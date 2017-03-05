@@ -2,7 +2,7 @@
 
 const Joi = require('joi');
 
-module.exports = (service) => {
+module.exports = (service, mixedValidation, rowExists) => {
 
     return [
         {
@@ -14,10 +14,14 @@ module.exports = (service) => {
             },
             config: {
                 validate: {
-                    query: {
+                    query: mixedValidation({
                         source: Joi.string(),
-                        page: Joi.number()
-                    }
+                        page: Joi.number().integer(),
+                        collectionId: Joi.number().integer(),
+                    }, {
+                        source: rowExists('source', 'id', 'Source not found'),
+                        collectionId: rowExists('collection', 'id', 'Collection not found'),
+                    })
                 }
             }
         }
@@ -25,4 +29,8 @@ module.exports = (service) => {
 };
 
 module.exports['@singleton'] = true;
-module.exports['@require'] = ['image/image-service'];
+module.exports['@require'] = [
+    'image/image-service',
+    'validator/mixed-validation',
+    'validator/constraints/row-exists'
+];
