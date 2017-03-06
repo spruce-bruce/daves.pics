@@ -25,7 +25,9 @@ class SourceImages extends Component {
     };
     if (splat) {
       const currentCollectionValues = currentCollectionSelector(collectionList, splat);
-      filter.collectionId = currentCollectionValues.getIn(['currentCollection', 'id']);
+      if (currentCollectionValues.get('currentCollection')) {
+        filter.collectionId = currentCollectionValues.getIn(['currentCollection', 'id']);
+      }
     }
 
     dispatch(fetchImageList(page, filter));
