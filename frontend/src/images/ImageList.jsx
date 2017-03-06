@@ -11,13 +11,25 @@ class ImageList extends Component {
     pathname: PropTypes.string.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { pathname } = this.props;
     document.onkeyup = (e) => {
       const { page, pageCount } = this.props.pagination.toJS();
       const { routerPush } = this.props;
       if (e.keyCode === 39 && page < pageCount) routerPush(`${pathname}?page=${page + 1}`);
       if (e.keyCode === 37 && page > 1) routerPush(`${pathname}?page=${page - 1}`);
+    }
+  }
+
+  componentDidUpdate(oldProps) {
+    const { pathname } = this.props;
+    if (oldProps.pathname !== pathname) {
+      document.onkeyup = (e) => {
+        const { page, pageCount } = this.props.pagination.toJS();
+        const { routerPush } = this.props;
+        if (e.keyCode === 39 && page < pageCount) routerPush(`${pathname}?page=${page + 1}`);
+        if (e.keyCode === 37 && page > 1) routerPush(`${pathname}?page=${page - 1}`);
+      }
     }
   }
 
