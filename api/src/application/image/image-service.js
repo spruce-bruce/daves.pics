@@ -14,7 +14,6 @@ const allowedContentTypes = [
 
 class ImageService {
     constructor(aws, bookshelf, collectionService) {
-
         this.destinationBucket = Buckets.destinationBucket;
         this.s3 = new aws.S3();
         this.bookshelf = bookshelf;
@@ -29,13 +28,21 @@ class ImageService {
             query.where('source_id', search.source);
         }
 
-        return this.bookshelf.model('image').forge()
-            .orderBy('created_at', 'DESC')
-            .fetchPage({
+        let collectionQueryPromise;
+        if (search.collectionId) {
+            collectionQueryPromise = this.collectionService.fetchDescendants(search.collectionId)
+                .then(collections => collections.map(collection => collection.get('id')))
+                .then(collectionIds => query.where('collection_id', 'IN', collectionIds));
+        } else {
+            collectionQueryPromise = Promise.resolve();
+        }
+
+        return collectionQueryPromise
+            .then(() => query.fetchPage({
                 withRelated: ['files'],
                 page: search.page,
                 pageSize: 9
-            })
+            }))
             .then((collection) => {
 
                 return {

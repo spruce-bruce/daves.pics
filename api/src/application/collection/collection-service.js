@@ -37,6 +37,20 @@ class CollectionService {
             });
     }
 
+    fetchDescendants(collectionId) {
+        return this.bookshelf.knex.raw(`
+            WITH RECURSIVE collection_descendants AS (
+                SELECT * FROM collections where id = ?
+                UNION
+                SELECT collections.*
+                FROM collections
+                INNER JOIN collection_descendants
+                    ON collection_descendants.id = collections.parent_collection
+            ) SELECT * FROM collection_descendants
+        `, [collectionId])
+            .then(result => this.bookshelf.model('collection').collection(result.rows));
+    }
+
     processImageCollection(image) {
         console.log(`Processing image's collection for ${image.get('id')}`.blue);
 
