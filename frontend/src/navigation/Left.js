@@ -11,7 +11,7 @@ const style = {
     backgroundColor: 'black',
     display: 'flex',
     flexDirection: 'column',
-    minWidth: '20%',
+    minWidth: '22%',
     padding: '1%'
   },
   links: {

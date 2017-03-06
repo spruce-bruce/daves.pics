@@ -1,6 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import Pagination from '../common/Pagination';
 
+const style = {
+  img : {
+    height: '200px',
+    paddingRight: '5px',
+    paddingBottom: '5px',
+  }
+}
+
 class ImageList extends Component {
 
   static propTypes = {
@@ -38,7 +46,7 @@ class ImageList extends Component {
   }
 
   renderImage = (image) => {
-    return <img key={image.get('id')} alt="no description yet" src={this.pickThumb(image.get('files'))} />;
+    return <img style={style.img} key={image.get('id')} alt="no description yet" src={this.pickThumb(image.get('files'))} />;
   }
 
   render() {
