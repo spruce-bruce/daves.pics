@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { fetchSourceList } from '../sources/source-actions';
 import { Link } from 'react-router';
@@ -55,7 +56,7 @@ class Left extends Component {
     const parentCollection = collectionValues.get('parentCollection');
 
     const renderableCollectionList = currentCollection
-      ? currentCollection.get('children') ? currentCollection.get('children') : parentCollection.get('children')
+      ? currentCollection.get('children') ? currentCollection.get('children') : Immutable.List()
       : collectionList;
 
     let splatStr = '';
@@ -65,15 +66,31 @@ class Left extends Component {
       splatStr = splat ? splat.replace(/[^/]+(?=\/$|$)/, '') : splatStr;
     }
 
-    const renderListItems = () => !renderableCollectionList.size ? <div>Empty :(</div> : renderableCollectionList.map(collection => (
-      <Link
-        key={`collection-${collection.get('id')}`}
-        to={`/source/${sourceId}/${splatStr}${collection.get('name')}`}
-        style={style.links}
-      >
-        {collection.get('name')}
-      </Link>
-    ));
+    const renderListItems = () => {
+      let links = renderableCollectionList.map(collection => (
+        <Link
+          key={`collection-${collection.get('id')}`}
+          to={`/source/${sourceId}/${splatStr}${collection.get('name')}`}
+          style={style.links}
+        >
+          {collection.get('name')}
+        </Link>
+      ));
+
+      if (parentCollection) {
+        const parentSplat = splat.replace(/[^/]+(?=\/$|$)/, '');
+        links = links.unshift(<div key="nl"><br /></div>);
+        links = links.unshift(<Link
+          key={`back-to-${parentCollection.get('id')}`}
+          to={`/source/${sourceId}/${parentSplat.substring(0, parentSplat.length - 1)}`}
+          style={style.link}
+        >
+          .. {parentCollection.get('name')}
+        </Link>);
+      }
+
+      return links;
+    };
 
     return (
       <div>
